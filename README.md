@@ -1,2 +1,2 @@
 # youtube-caption-downloader-frontend
-Get captions from youtube videos and create a file 
+Frontend for YouTube Caption Downloader using HTML, CSS, and JavaScript. Hosted on GitHub Pages.
