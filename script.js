@@ -3,15 +3,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const downloadButton = document.getElementById('downloadButton');
     const messageDiv = document.getElementById('message');
 
-    // MANTER URL atualizada com a URL do backend no Heroku (ou outro serviço)
-    const backendApiUrl = 'https://seu-app-incrivel.herokuapp.com/download_transcript'; // <-- MUITO IMPORTANTE: Mude para a URL do seu backend!
+ 
+    
+    const backendApiUrl = 'https://youtube-caption-downloader-backend.onrender.com';
 
     downloadButton.addEventListener('click', async () => {
         const youtubeUrl = youtubeUrlInput.value.trim();
         messageDiv.textContent = ''; // Limpa mensagens anteriores
 
         if (!youtubeUrl) {
-            messageDiv.textContent = 'Por favor, insira uma URL do YouTube.';
+            messageDiv.textContent = 'Por favor, insira o link do YouTube.';
             messageDiv.style.color = '#d9534f';
             return;
         }
@@ -37,12 +38,11 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (response.ok) {
-                // Se a resposta for um arquivo, crie um link para download
                 const blob = await response.blob();
                 const disposition = response.headers.get('Content-Disposition');
                 let filename = 'legenda.txt';
                 if (disposition && disposition.indexOf('attachment') !== -1) {
-                    const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                    const filenameRegex = /filename[^;=\\\\\n]*=((['"]).*?\\\\2|[^;\\\\n]*)/;
                     const matches = filenameRegex.exec(disposition);
                     if (matches != null && matches[1]) {
                         filename = decodeURIComponent(matches[1].replace(/['"]/g, ''));
@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 a.click();
                 window.URL.revokeObjectURL(url);
 
-                messageDiv.textContent = 'Legenda baixada com sucesso!';
+                messageDiv.textContent = 'Legenda extraída com sucesso!';
                 messageDiv.style.color = '#5cb85c';
             } else {
                 const errorData = await response.json();
